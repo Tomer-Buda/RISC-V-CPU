@@ -1,0 +1,32 @@
+// 1. LUI x1, 0x12345 (Load Upper Immediate) -> x1 = 0x12345000
+123450B7
+
+// 2. ADDI x2, x0, 10 (x2 = 10)
+00A00113
+
+// 3. JAL x3, +8 (Jump to PC+8 = 12, Save ret in x3)
+008001EF
+
+// 4. NOP (Should be Skipped)
+00000013
+
+// 5. AUIPC x4, 0 (x4 = PC = 12)
+00000217
+
+// 6. SB x2, 0(x4) (Store Byte 0x0A to Mem[12])
+00220023
+
+// 7. LBU x5, 0(x4) (Load Byte Unsigned -> x5 = 10)
+00024283
+
+// 8. SUB x6, x1, x5 (Big Number - 10)
+40508333
+
+// 9. BLT x2, x6, +8 (10 < Big Number? YES. Jump to End)
+00614463
+
+// 10. NOP (Should be Skipped)
+00000013
+
+// 11. ADDI x10, x0, 1 (Success!)
+00100513
