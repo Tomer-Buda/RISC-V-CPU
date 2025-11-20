@@ -14,6 +14,7 @@ module datapath (
     wire [31:0] mem_read_data;
     wire [31:0] result; // The final value to write back
     wire zero;
+    wire clk, rst;
 
     // Control Signals
     wire reg_write, mem_write, alu_src, branch, jump, jalr;
@@ -28,17 +29,18 @@ module datapath (
 
     // FETCH STAGE
     // PC Register
-    reg [31:0] pc_reg;
-    always @(posedge clk) begin
-        if (rst) pc_reg <= 0;
-        else     pc_reg <= next_pc;
-    end
-    assign pc = pc_reg;
+    program_counter pc_reg (
+        .clk(clk),
+        .rst(rst),
+        .next_pc(next_pc),
+        .pc(pc)
+    );
 
     // Instruction Memory
-    reg [31:0] imem [0:255];
-    initial $readmemh("program.hex", imem);
-    assign instr = imem[pc >> 2];
+    instruction_memory imem (
+        .addr(pc),
+        .instr(instr)
+    );
 
     // PC Adder
     assign pc_plus_4 = pc + 4;
