@@ -13,7 +13,7 @@ module control_unit (
     output reg [3:0] alu_ctrl // The ALU Operation Code
 );
 
-    // ALU Control Codes (Must match alu.v)
+    // ALU Control Codes
     localparam ADD  = 4'b0000;
     localparam SUB  = 4'b1000;
     localparam SLL  = 4'b0001;
