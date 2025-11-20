@@ -40,8 +40,7 @@ The core is verified using a self-checking assembly test suite (`program.hex`) t
 
 2.  **Compile the Design:**
     ```bash
-    iverilog -o cpu_core alu.v register_file.v data_memory.v instruction_memory.v \
-    program_counter.v control_unit.v imm_gen.v datapath.v tb_datapath.v
+    iverilog -o cpu_core alu.v register_file.v data_memory.v instruction_memory.v program_counter.v control_unit.v imm_gen.v datapath.v tb_datapath.v
     ```
 
 3.  **Run Simulation:**
@@ -49,4 +48,5 @@ The core is verified using a self-checking assembly test suite (`program.hex`) t
     vvp cpu_core
 
     ```
+
 
