@@ -35,7 +35,7 @@ The core is verified using a self-checking assembly test suite (`program.hex`) t
     # Linux
     sudo apt-get install iverilog
     # Windows
-    # Download installer from [http://bleyer.org/icarus/](http://bleyer.org/icarus/)
+    # Download installer from https://bleyer.org/icarus/
     ```
 
 2.  **Compile the Design:**
@@ -49,3 +49,4 @@ The core is verified using a self-checking assembly test suite (`program.hex`) t
     vvp cpu_core
 
     ```
+
