@@ -2,7 +2,7 @@
 
 A fully functional, synthesized Single-Cycle RISC-V processor core designed in Verilog. This architecture implements the complete **RV32I Base Integer Instruction Set**, capable of handling arithmetic, logic, memory access, and complex control flow.
 
-## 🚀 Architecture Features
+## Architecture Features
 
 * **Instruction Set:** Supports R-Type, I-Type, S-Type, B-Type, U-Type, and J-Type instructions.
 * **Universal ALU:** Handles 10 operations including signed/unsigned comparisons (`SLT`/`SLTU`) and arithmetic shifts (`SRA`).
@@ -10,7 +10,7 @@ A fully functional, synthesized Single-Cycle RISC-V processor core designed in V
 * **Control Flow:** Full support for conditional branching (`BEQ`, `BNE`, `BLT`, `BGE`) and unconditional jumps (`JAL`, `JALR`) using a dedicated 3-way PC Multiplexer.
 * **Immediate Generation:** Specialized hardware unit to unscramble and sign-extend 12-bit and 20-bit immediates.
 
-## 🛠️ Design Modules
+## Design Modules
 
 1.  **Datapath (`datapath.v`):** Top-level integration wiring the PC, ALU, RegFile, and Memory.
 2.  **Control Unit (`control_unit.v`):** Main decoder generating control signals based on Opcode/Funct3/Funct7.
@@ -18,7 +18,7 @@ A fully functional, synthesized Single-Cycle RISC-V processor core designed in V
 4.  **Data Memory (`data_memory.v`):** 1KB RAM with read-modify-write logic for sub-word access.
 5.  **Immediate Generator (`imm_gen.v`):** Combinational logic for immediate value extraction.
 
-## 🧪 Verification
+## Verification
 
 The core is verified using a self-checking assembly test suite (`program.hex`) that validates:
 * Register Read/Write integrity.
@@ -47,4 +47,5 @@ The core is verified using a self-checking assembly test suite (`program.hex`) t
 3.  **Run Simulation:**
     ```bash
     vvp cpu_core
+
     ```
