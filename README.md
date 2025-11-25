@@ -42,7 +42,7 @@ I implemented a robust **Assertion-Based Verification (ABV)** environment using 
     * Verified **Sign Extension** correctness for Arithmetic Shifts (SRA) vs Logical Shifts (SRL).
     * Implemented bi-directional **Zero Flag** assertions.
 
-### 📸 Verification Evidence
+### Verification Evidence
 
 #### 1. Control Unit Verification
 **Scenario:** Validating that STORE instructions never accidentally trigger a Register Write.
@@ -91,4 +91,5 @@ The core logic was initially verified using a self-checking assembly test suite 
 1.  Load the design files from `rtl/`.
 2.  Load the assertion files from `Verification/`.
 3.  Run the testbench `tb_alu_sva.sv` (for ALU) or `tb_sva.sv` (for Control).
+
 
