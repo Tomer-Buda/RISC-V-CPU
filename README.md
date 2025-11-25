@@ -1,48 +1,53 @@
-# RISC-V Core Design & Formal Verification
 
-## Project Overview
-This repository contains the RTL design and Formal Verification environment for a Single-Cycle RISC-V Processor (RV32I). The project is divided into two modules:
-1. **RTL Design:** A synthesizable Verilog implementation of the RISC-V Core.
-2. **Formal Verification:** An Assertion-Based Verification (ABV) suite using SystemVerilog Assertions (SVA) to validate protocol compliance and logic correctness.
+# Single-Cycle RISC-V Processor (RV32I)
 
----
+A fully functional, synthesized Single-Cycle RISC-V processor core designed in Verilog. This architecture implements the complete **RV32I Base Integer Instruction Set**, capable of handling arithmetic, logic, memory access, and complex control flow.
 
-## Module 1: RTL Design (The CPU)
-**Location:** [`/rtl`](./rtl)
-* **Architecture:** Single-Cycle RV32I (Base Integer Instruction Set).
-* **Features:**
-  * **ALU:** Supports all arithmetic, logical, and shift operations including separation of Arithmetic (`>>>`) vs Logical (`>>`) shifts.
-  * **Control Unit:** Decodes Opcode/Funct3/Funct7 to generate control signals.
-  * **Datapath:** Includes PC Multiplexing for Jumps/Branches and Immediate Generation.
+## Architecture Features
 
----
+* **Instruction Set:** Supports R-Type, I-Type, S-Type, B-Type, U-Type, and J-Type instructions.
+* **Universal ALU:** Handles 10 operations including signed/unsigned comparisons (`SLT`/`SLTU`) and arithmetic shifts (`SRA`).
+* **Smart Data Memory:** byte-addressable memory supporting Word (`LW`/`SW`), Half-Word (`LH`/`SH`), and Byte (`LB`/`SB`) access with correct sign extension logic.
+* **Control Flow:** Full support for conditional branching (`BEQ`, `BNE`, `BLT`, `BGE`) and unconditional jumps (`JAL`, `JALR`) using a dedicated 3-way PC Multiplexer.
+* **Immediate Generation:** Specialized hardware unit to unscramble and sign-extend 12-bit and 20-bit immediates.
 
-## Module 2: Formal Verification (The Police)
-**Location:** [`/Verification`](./Verification)
+## Design Modules
 
-I implemented a robust **Assertion-Based Verification (ABV)** environment using **Aldec Riviera-PRO**. Unlike standard simulation, this strictly enforces mathematical properties to prevent illegal states.
+1.  **Datapath (`datapath.v`):** Top-level integration wiring the PC, ALU, RegFile, and Memory.
+2.  **Control Unit (`control_unit.v`):** Main decoder generating control signals based on Opcode/Funct3/Funct7.
+3.  **Register File (`register_file.v`):** 32x32-bit dual-read port, single-write port memory.
+4.  **Data Memory (`data_memory.v`):** 1KB RAM with read-modify-write logic for sub-word access.
+5.  **Immediate Generator (`imm_gen.v`):** Combinational logic for immediate value extraction.
 
-### Key Verification Features
-* **Control Unit Safety:**
-  * Formally proved **Mutual Exclusion** (e.g., `MemRead` and `MemWrite` never active simultaneously).
-  * Enforced **State Safety** (e.g., Branch instructions must never trigger `RegWrite`).
-* **ALU Data Integrity:**
-  * Validated **Signed vs. Unsigned** logic (SLT vs SLTU).
-  * Verified **Sign Extension** correctness for Arithmetic Shifts (SRA).
-  * Implemented bi-directional **Zero Flag** assertions.
+## Verification
 
-### Verification Evidence
-**1. Fault Injection Testing (The "Sabotage" Test)**
-To prove the testbench works, I intentionally broke the Arithmetic Shift logic (changed `>>>` to `>>`). The SVA environment immediately caught the bug:
-![Fault Injection](Verification/docs/fault_injection_demo.png)
+The core is verified using a self-checking assembly test suite (`program.hex`) that validates:
+* Register Read/Write integrity.
+* ALU Arithmetic and Logic correctness.
+* Memory Load/Store operations (Byte/Half/Word).
+* Branching and Jumping logic (Forward/Backward jumps).
 
-**2. Successful Verification (Golden Model)**
-After fixing the logic, the design passed 100% of the assertion coverage properties
+### How to Run
 
----
+1.  **Install Icarus Verilog:**
+    ```bash
+    # MacOS
+    brew install icarus-verilog
+    # Linux
+    sudo apt-get install iverilog
+    # Windows
+    # Download installer from https://bleyer.org/icarus/
+    ```
 
-## 🚀 How to Run
-The verification environment is set up for **Aldec Riviera-PRO** (or any simulator supporting SVA).
-1. Load the design files from `rtl/`.
-2. Load the assertion files from `Verification/assertions/`.
-3. Run the testbench from `Verification/testbench/`.
+2.  **Compile the Design:**
+    ```bash
+    iverilog -o cpu_core alu.v register_file.v data_memory.v instruction_memory.v program_counter.v control_unit.v imm_gen.v datapath.v tb_datapath.v
+    ```
+
+3.  **Run Simulation:**
+    ```bash
+    vvp cpu_core
+
+    ```
+
+
