@@ -89,5 +89,6 @@ The core logic was initially verified using a self-checking assembly test suite 
 ### How to Run Formal Verification (SystemVerilog)
 *Requires a simulator that supports SystemVerilog Assertions (e.g., Aldec Riviera-PRO, Questasim, or Synopsys VCS).*
 1.  Load the design files from `rtl/`.
-2.  Load the assertion files from `Verification/assertions/`.
-3.  Run the testbench `Verification/testbench/tb_alu_sva.sv` (for ALU) or `tb_sva.sv` (for Control).
+2.  Load the assertion files from `Verification/`.
+3.  Run the testbench `tb_alu_sva.sv` (for ALU) or `tb_sva.sv` (for Control).
+
